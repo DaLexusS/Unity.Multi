@@ -2,8 +2,10 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
@@ -12,6 +14,9 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     public static UnityAction onJoinedLobby;
     public static UnityAction<SessionInfo> onSessionCreated;
     public static UnityAction<string> onLocalPlayerJoined;
+
+    [SerializeField] TMP_InputField playerInput;
+    public SessionListUiHandler uiHandler;
 
     private void OnEnable()
     {
@@ -40,17 +45,17 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
             Debug.Log("couldn't connect the lobby");
         }
     }
-    public async void StartSession(string sessionName)
-    {
-        /*
-        StartGameResult resTask = await networkRunner.StartGame(new StartGameArgs()
-        {
-            GameMode = GameMode.Shared,
-            SessionName = sessionName,
-            PlayerCount = 4,
-            OnGameStarted = OnGameStarted
-        });*/
-    }
+    //public async void StartSession()
+    //{
+
+    //    StartGameResult resTask = await networkRunner.StartGame(new StartGameArgs()
+    //    {
+    //        GameMode = GameMode.Shared,
+    //        SessionName = playerInput.text,
+    //        PlayerCount = 4,
+    //        OnGameStarted = OnGameStarted
+    //    });
+    //}
 
     public void OnGameStarted(NetworkRunner obj)
     {
@@ -123,7 +128,13 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void INetworkRunnerCallbacks.OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        
+        uiHandler.ClearList();
+
+        // Add each session to UI
+        foreach (var session in sessionList)
+        {
+            uiHandler.AddToList(session);
+        }
     }
 
     void INetworkRunnerCallbacks.OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)

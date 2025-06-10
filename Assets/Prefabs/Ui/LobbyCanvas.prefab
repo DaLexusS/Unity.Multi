@@ -3904,7 +3904,6 @@ GameObject:
   - component: {fileID: 635421216871612313}
   - component: {fileID: 6745500144458568912}
   - component: {fileID: 7340621770022356878}
-  - component: {fileID: 6102017300659231063}
   m_Layer: 5
   m_Name: LobbyCanvas
   m_TagString: Untagged
@@ -3998,22 +3997,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6102017300659231063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9134898105135441404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7cf5100e50920644b76e8ca3c4e9272, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusText: {fileID: 6644818450161688624}
-  sessionItemListPrefab: {fileID: 969822585689724919, guid: 72eb954114c801147974e9dff2b8428b, type: 3}
-  LobbyList: {fileID: 6269447369943844455}
-  verticalLayoutGroup: {fileID: 2500345909584986521}
 --- !u!1 &9156366254564585285
 GameObject:
   m_ObjectHideFlags: 0

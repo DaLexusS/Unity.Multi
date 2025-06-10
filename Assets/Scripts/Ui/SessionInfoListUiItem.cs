@@ -1,19 +1,16 @@
-using UnityEngine;
-using UnityEditor.UI;
-using TMPro;
-using UnityEngine.UI;
 using Fusion;
-using System;
-using UnityEngine.Events;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class SessionInfoListUiItem : MonoBehaviour
 {
-    public static UnityAction<string> onSessionJoin;
-    public TextMeshProUGUI sessionNameText;
-    public TextMeshProUGUI sessionCountText;
+    public TMP_Text sessionNameText;
+    public TMP_Text sessionCountText;
     public Button joinButton;
 
-    SessionInfo sessionInfo;
+    private SessionInfo sessionInfo;
+
     public void SetInformation(SessionInfo sessionInfo)
     {
         this.sessionInfo = sessionInfo;
@@ -21,17 +18,23 @@ public class SessionInfoListUiItem : MonoBehaviour
         sessionNameText.text = sessionInfo.Name;
         sessionCountText.text = $"{sessionInfo.PlayerCount}/{sessionInfo.MaxPlayers}";
 
-        bool isJoinButtonActive = true;
+        joinButton.interactable = sessionInfo.PlayerCount < sessionInfo.MaxPlayers;
 
-        if (sessionInfo.PlayerCount >= sessionInfo.MaxPlayers)
+        joinButton.onClick.RemoveAllListeners();
+        joinButton.onClick.AddListener(() =>
         {
-            isJoinButtonActive = false;
-        }
-
-        joinButton.gameObject.SetActive(isJoinButtonActive);
+            JoinSession(sessionInfo.Name);
+        });
     }
-    public void Join()
+
+    private void JoinSession(string sessionName)
     {
-        onSessionJoin.Invoke(sessionInfo.Name);
+        var runner = FindObjectOfType<NetworkRunner>();
+        runner.StartGame(new StartGameArgs
+        {
+            GameMode = GameMode.Shared,
+            SessionName = sessionName,
+            SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>()
+        });
     }
 }
