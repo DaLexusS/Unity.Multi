@@ -4,17 +4,16 @@ using TMPro;
 using UnityEngine.UI;
 using Fusion;
 using System;
+using UnityEngine.Events;
 
 public class SessionInfoListUiItem : MonoBehaviour
 {
+    public static UnityAction<string> onSessionJoin;
     public TextMeshProUGUI sessionNameText;
     public TextMeshProUGUI sessionCountText;
     public Button joinButton;
 
     SessionInfo sessionInfo;
-
-    public event Action<SessionInfo> onJoinSession;
-
     public void SetInformation(SessionInfo sessionInfo)
     {
         this.sessionInfo = sessionInfo;
@@ -31,9 +30,8 @@ public class SessionInfoListUiItem : MonoBehaviour
 
         joinButton.gameObject.SetActive(isJoinButtonActive);
     }
-
-    public void OnClick()
+    public void Join()
     {
-        onJoinSession.Invoke(sessionInfo);
+        onSessionJoin.Invoke(sessionInfo.Name);
     }
 }
